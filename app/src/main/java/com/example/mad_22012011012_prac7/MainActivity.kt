@@ -68,11 +68,15 @@ class MainActivity : AppCompatActivity() {
     private fun getPersonDetailsFromJson(data: String) {
         try {
             val jsonArray = JSONArray(data)
-            val personList = Array(jsonArray.length()) { index ->
+
+            // Create an Array<Person> directly
+            val personArray = Array(jsonArray.length()) { index ->
                 val jsonObject = jsonArray.getJSONObject(index)
                 Person.fromJson(jsonObject)
-            }.toList()
-            personAdapter = PersonAdapter(personArray)
+            }
+
+            // Initialize adapter with the Array<Person>
+            personAdapter = PersonAdapter(personArray.toList().toTypedArray()) // Using .toList() to adapt it to RecyclerView
             recyclerView.adapter = personAdapter
         } catch (e: Exception) {
             e.printStackTrace()
